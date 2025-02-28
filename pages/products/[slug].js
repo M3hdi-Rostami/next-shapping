@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import AddToCartButton from "@/components/AddToCartButton";
 
 function Product() {
   const [product, setProduct] = useState(null);
@@ -45,9 +46,7 @@ function Product() {
             <div>Status:</div>
             <div>{product?.count ? "Available" : "Unavailable"}</div>
           </div>
-          <button className="rounded-xl bg-gray-700 text-white px-4 py-2 w-full">
-            Add to Cart
-          </button>
+          <AddToCartButton product={product} />
         </div>
       </div>
     </Layout>

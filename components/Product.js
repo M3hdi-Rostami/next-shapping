@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import AddToCartButton from "./AddToCartButton";
 
 function Product(props) {
   const { item } = props;
@@ -13,9 +14,7 @@ function Product(props) {
           <h2 className="text-lg">{item.title}</h2>
         </Link>
         <p className="p-2">{item.price}</p>
-        <button className="rounded-xl bg-gray-700 text-white px-4 py-2">
-          Add to Cart
-        </button>
+        <AddToCartButton product={item} />
       </div>
     </div>
   );

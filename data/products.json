@@ -1,22 +1,22 @@
 [
     {
         "id": 0,
-        "title": "Book 1",
-        "price": 299,
-        "slug": "book-1",
-        "description": "New book",
+        "title": "The Mystery of the Old Library",
+        "price": 349,
+        "slug": "mystery-old-library",
+        "description": "An intriguing story of forgotten manuscripts and hidden treasures in an ancient library.",
         "cat": "Books",
-        "count": 10,
+        "count": 15,
         "image": "/images/book.jpeg"
     },
     {
         "id": 1,
-        "title": "Book 2",
-        "price": 199,
-        "slug": "book-2",
-        "description": "Old book",
+        "title": "A Journey Through Time",
+        "price": 249,
+        "slug": "journey-through-time",
+        "description": "A thrilling adventure that spans across multiple eras and civilizations.",
         "cat": "Books",
-        "count": 5,
+        "count": 8,
         "image": "/images/book.jpeg"
     }
 ]

@@ -4,12 +4,13 @@ import { useContext } from "react";
 
 function AddToCartButton({ product }) {
   const { state, dispatch } = useContext(CartContext);
+  const {
+    cart: { cartItems },
+  } = state;
   const router = useRouter();
 
   function addToCartHandler() {
-    const existingItem = state.cart.cartItems.find(
-      (item) => item.slug === product.slug
-    );
+    const existingItem = cartItems.find((item) => item.slug === product.slug);
     const qty = existingItem ? existingItem.qty + 1 : 1;
 
     if (product.count < qty) {

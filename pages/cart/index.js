@@ -1,13 +1,15 @@
 import Layout from "@/components/Layout";
 import { CartContext } from "@/context/Cart";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 function Cart() {
   const { state, dispatch } = useContext(CartContext);
-  const { cart } = state;
-  const products = cart?.cartItems;
+  const {
+    cart: { cartItems },
+  } = state;
   const router = useRouter();
 
   function removeItemHandler(item) {
@@ -18,12 +20,17 @@ function Cart() {
     router.push("/checkout");
   }
 
+  const [totalPrice, setTotalPrice] = useState(0);
+  useEffect(() => {
+    setTotalPrice(cartItems.reduce((acc, cur) => acc + cur.qty * cur.price, 0));
+  }, [cartItems]);
+
   return (
     <Layout title="cart shopping">
       <h1 className="mb-4 text-xl">Cart shopping</h1>
 
       <ul role="list" className="divide-y divide-gray-100 flex flex-col gap-2">
-        {products.map((item) => (
+        {cartItems.map((item) => (
           <li
             key={item.id}
             className="flex flex-col justify-between gap-3 py-5 bg-white p-4 rounded-lg"
@@ -80,9 +87,7 @@ function Cart() {
       <div className="bg-gray-700 px-4 py-2 text-white mt-6 rounded-lg font-bold text-l flex items-center justify-between gap-4">
         <div>
           <span className="mr-2"> Total Price:</span>
-          <span className="text-emerald-500">
-            {products.reduce((acc, cur) => acc + cur.qty * cur.price, 0)}
-          </span>
+          <span className="text-emerald-500">{totalPrice}</span>
         </div>
         <button
           onClick={redirectToCheckout}
@@ -95,4 +100,4 @@ function Cart() {
   );
 }
 
-export default Cart;
+export default dynamic(() => Promise.resolve(Cart), { ssr: false });

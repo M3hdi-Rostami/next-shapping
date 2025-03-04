@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import React from "react";
+import RequireAuth from "@/hoc/RequireAuth";
 
 function Index() {
   return (
@@ -9,4 +9,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default RequireAuth(Index);

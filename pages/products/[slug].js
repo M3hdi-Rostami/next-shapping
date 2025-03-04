@@ -40,7 +40,7 @@ function Product(props) {
             <div>Status:</div>
             <div>{product?.count ? "Available" : "Unavailable"}</div>
           </div>
-          <AddToCartButton product={product} />
+          <AddToCartButton product={product} withRedirect={true} />
         </div>
       </div>
     </Layout>

@@ -1,8 +1,11 @@
 import { CartContext } from "@/context/Cart";
 import { useRouter } from "next/router";
 import { useContext } from "react";
+import { toast } from "react-toastify";
 
-function AddToCartButton({ product }) {
+function AddToCartButton(props) {
+  const { product, withRedirect = false } = props;
+
   const { state, dispatch } = useContext(CartContext);
   const {
     cart: { cartItems },
@@ -14,11 +17,14 @@ function AddToCartButton({ product }) {
     const qty = existingItem ? existingItem.qty + 1 : 1;
 
     if (product.count < qty) {
-      return alert("Product is out!");
+      return toast.warn("Product is out!");
     }
 
     dispatch({ type: "ADD_ITEMS", payload: { ...product, qty } });
-    router.push("/cart");
+    toast.success("Product is added to cart");
+    if (withRedirect) {
+      router.push("/cart");
+    }
   }
 
   return (

@@ -5,6 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 function Layout(props) {
   const { title, children } = props;
@@ -34,6 +35,7 @@ function Layout(props) {
       <Head>
         <title>{`${title} - Shopping`}</title>
       </Head>
+      <ToastContainer position="top-left" />
       <div className="flex items-center justify-between flex-col h-screen">
         <div className="flex min-w-screen flex-col justify-between">
           <header>

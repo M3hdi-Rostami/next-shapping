@@ -1,10 +1,12 @@
-import path from "path";
-import fs from "fs";
+import Product from "@/database/models/product";
+import db from "@/database/db";
+import products from "@/database/mock-data/products";
 
 const handler = async (req, res) => {
-  const filePath = path.join(process.cwd(), "data", "products.json");
-  const fileData = fs.readFileSync(filePath);
-  const data = JSON.parse(fileData);
+  await db.connect();
+  await Product.deleteMany();
+  await Product.insertMany(products);
+  const data = await Product.find().lean();
   res.status(200).json(data);
 };
 

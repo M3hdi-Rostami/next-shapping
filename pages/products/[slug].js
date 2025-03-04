@@ -1,24 +1,18 @@
 import Layout from "@/components/Layout";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import AddToCartButton from "@/components/AddToCartButton";
+import NotFountPage from "../404";
 
-function Product() {
-  const [product, setProduct] = useState(null);
+function Product(props) {
+  const { product } = props;
+  console.log("🚀 ~ Product ~ product:", product);
 
-  const { query } = useRouter();
-  const { slug } = query;
-
-  const fetchData = async () => {
-    const response = await fetch(`/api/products/${slug}`);
-    const data = await response.json();
-    setProduct(data.product);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [slug]);
+  if (!product)
+    return (
+      <Layout title="not found product!">
+        <NotFountPage />
+      </Layout>
+    );
 
   return (
     <Layout title={product?.title}>
@@ -54,3 +48,13 @@ function Product() {
 }
 
 export default Product;
+
+export async function getServerSideProps(context) {
+  const { slug } = context.params;
+  const response = await fetch(`http://localhost:3000/api/products/${slug}`);
+  const product = await response.json();
+
+  return {
+    props: { product },
+  };
+}

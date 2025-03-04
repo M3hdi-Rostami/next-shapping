@@ -1,7 +1,6 @@
 import Link from "next/link";
-import React from "react";
 
-function notFountPage() {
+function NotFountPage() {
   return (
     <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
       <div className="text-center">
@@ -28,4 +27,4 @@ function notFountPage() {
   );
 }
 
-export default notFountPage;
+export default NotFountPage;

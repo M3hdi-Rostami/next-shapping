@@ -1,18 +1,8 @@
-import { useEffect, useState } from "react";
 import Product from "../../components/Product";
 import Layout from "@/components/Layout";
 
-function Products() {
-  const [products, setProducts] = useState([]);
-  const fetchData = async () => {
-    const response = await fetch("/api/products");
-    const data = await response.json();
-    setProducts(data);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+function Products(props) {
+  const { products } = props;
 
   return (
     <Layout title={"products"}>
@@ -26,3 +16,12 @@ function Products() {
 }
 
 export default Products;
+
+export async function getServerSideProps() {
+  const response = await fetch("http://localhost:3000/api/products");
+  const products = await response.json();
+
+  return {
+    props: { products },
+  };
+}

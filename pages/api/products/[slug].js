@@ -1,16 +1,13 @@
-import path from "path";
-import fs from "fs";
+import db from "@/database/db";
+import Product from "@/database/models/product";
 
 const handler = async (req, res) => {
-  console.log("🚀 ~ handler ~ req:", req.body);
-  const filePath = path.join(process.cwd(), "data", "products.json");
-  const fileData = fs.readFileSync(filePath);
-  const data = JSON.parse(fileData);
-
   const { slug } = req.query;
-  const product = data.find((product) => product.slug === slug);
 
-  res.status(200).json({ product });
+  await db.connect();
+  const data = await Product.findOne({ slug }).lean();
+
+  res.status(200).json(data);
 };
 
 export default handler;

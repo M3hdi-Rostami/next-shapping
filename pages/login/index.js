@@ -1,8 +1,20 @@
 import Layout from "@/components/Layout";
-import React from "react";
+import React, { useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 function Login() {
+  const { status } = useSession();
+  const router = useRouter();
+  const { redirect } = router.query;
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push(redirect || "/");
+    }
+  }, [router, status, redirect]);
+
   const {
     register,
     handleSubmit,
@@ -10,8 +22,19 @@ function Login() {
   } = useForm();
 
   function onSubmit({ email, password }) {
-    console.log("🚀 ~ onSubmit ~ password:", password);
-    console.log("🚀 ~ onSubmit ~ email:", email);
+    try {
+      const result = signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (result.error) {
+        throw result.error;
+      }
+    } catch (error) {
+      console.log("🚀 ~ onSubmit ~ error:", error);
+    }
   }
 
   return (

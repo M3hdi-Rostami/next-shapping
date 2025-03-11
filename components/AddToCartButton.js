@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { toast } from "react-toastify";
 
 function AddToCartButton(props) {
-  const { product, withRedirect = false } = props;
+  const { product, withRedirect = false, cls = "" } = props;
 
   const { state, dispatch } = useContext(CartContext);
   const {
@@ -30,7 +30,7 @@ function AddToCartButton(props) {
   return (
     <button
       onClick={addToCartHandler}
-      className="rounded-xl bg-gray-700 text-white px-4 py-2 w-full cursor-pointer hover:opacity-90"
+      className={`cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${cls}`}
     >
       Add to Cart
     </button>

@@ -11,7 +11,9 @@ function RequireAuth(Component) {
     if (status === "loading") {
       return (
         <Layout title={"Home page"}>
-          <p>Loading...</p>
+          <div className="flex items-center justify-center h-full w-full text-3xl font-bold bg-white rounded-lg p-6">
+            Loading...
+          </div>
         </Layout>
       );
     }

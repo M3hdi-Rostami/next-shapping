@@ -5,7 +5,9 @@ export const CartContext = createContext();
 const cartCookies = Cookies.get("cart");
 
 const initialState = {
-  cart: cartCookies ? JSON.parse(cartCookies) : { cartItems: [] },
+  cart: cartCookies
+    ? JSON.parse(cartCookies)
+    : { cartItems: [], shippingData: {}, paymentMethod: "" },
 };
 
 function reducer(state, action) {
@@ -33,6 +35,29 @@ function reducer(state, action) {
       );
 
       const cartData = { ...state.cart, cartItems };
+
+      Cookies.set("cart", JSON.stringify(cartData));
+
+      return { ...state, cart: cartData };
+    }
+    case "SAVE_SHIPPING_DATA": {
+      const cartData = {
+        ...state.cart,
+        shippingData: {
+          ...state.cart.shippingData,
+          ...action.payload,
+        },
+      };
+
+      Cookies.set("cart", JSON.stringify(cartData));
+
+      return { ...state, cart: cartData };
+    }
+    case "SAVE_PAYMENT_METHOD": {
+      const cartData = {
+        ...state.cart,
+        paymentMethod: action.payload,
+      };
 
       Cookies.set("cart", JSON.stringify(cartData));
 

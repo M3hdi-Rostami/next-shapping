@@ -11,6 +11,7 @@ function Login() {
 
   useEffect(() => {
     if (status === "authenticated") {
+      console.log("🚀 ~ useEffect ~ redirect:", redirect);
       router.push(redirect || "/");
     }
   }, [router, status, redirect]);

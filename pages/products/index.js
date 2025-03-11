@@ -1,3 +1,4 @@
+import BreadCrumps from "@/components/BreadCrumps";
 import Product from "../../components/Product";
 import Layout from "@/components/Layout";
 
@@ -6,7 +7,9 @@ function Products(props) {
 
   return (
     <Layout title={"products"}>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12">
+      <BreadCrumps pageName="products" />
+
+      <div className="flex gap-10 flex-wrap">
         {products.map((item) => {
           return <Product key={item.id} item={item} />;
         })}

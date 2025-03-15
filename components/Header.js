@@ -55,13 +55,15 @@ function Header() {
               >
                 {session?.user?.name}
               </MenuButton>
-              <MenuItems className="absolute top-10 rounded-lg shadow-lg -right-4 p-4 w-24 bg-white border border-gray-100 flex flex-col gap-3">
-                {/* <MenuItem
-                  as={"div"}
-                  className="cursor-pointer text-gray-700 hover:text-blue-500"
-                >
-                  profile
-                </MenuItem> */}
+              <MenuItems className="absolute top-10 rounded-lg shadow-lg -right-4 p-4 w-max bg-white border border-gray-100 flex flex-col gap-3">
+                {session?.user?.isAdmin && (
+                  <MenuItem
+                    as={"div"}
+                    className="cursor-pointer text-gray-700 hover:text-blue-500"
+                  >
+                    <Link href={"/dashboard"}>Dashboard</Link>
+                  </MenuItem>
+                )}
                 <MenuItem
                   as={"div"}
                   className="cursor-pointer text-red-400 hover:text-red-600"

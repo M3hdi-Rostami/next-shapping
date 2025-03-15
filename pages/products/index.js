@@ -11,7 +11,7 @@ function Products(props) {
 
       <div className="flex gap-10 flex-wrap">
         {products.map((item) => {
-          return <Product key={item.id} item={item} />;
+          return <Product key={item._id} item={item} />;
         })}
       </div>
     </Layout>

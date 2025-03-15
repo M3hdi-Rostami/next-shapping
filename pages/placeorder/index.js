@@ -9,17 +9,45 @@ import BreadCrumps from "@/components/BreadCrumps";
 function PlaceOrder() {
   const { state, dispatch } = useContext(CartContext);
   const {
-    cart: { cartItems, shippingData },
+    cart: { cartItems, shippingData, paymentMethod },
   } = state;
   const router = useRouter();
 
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const [allCartItems, setAllCartItems] = useState([]);
+  const [shippingDataObj, setShippingDataObj] = useState({});
+
   useEffect(() => {
+    setShippingDataObj(shippingData);
+    setAllCartItems(cartItems);
     setTotalPrice(cartItems.reduce((acc, cur) => acc + cur.qty * cur.price, 0));
-  }, [cartItems]);
+  }, [cartItems, shippingData]);
 
   function removeItemHandler(item) {
     dispatch({ type: "REMOVE_ITEM", payload: item });
+  }
+
+  async function placeOrderSubmitHandler() {
+    try {
+      const response = await fetch("http://localhost:3000/api/orders", {
+        method: "POST",
+        body: JSON.stringify({
+          orderItems: cartItems.map((item) => {
+            return { ...item, quantity: item?.qty };
+          }),
+          shippingData,
+          paymentMethod,
+          totalPrice,
+        }),
+        headers: { "Content-type": "application/json" },
+      });
+
+      const data = await response.json();
+      router.push("/orders");
+    } catch (error) {
+      console.log("🚀 ~ placeOrderSubmitHandler ~ error:", error);
+    }
   }
 
   return (
@@ -36,10 +64,10 @@ function PlaceOrder() {
               role="list"
               className="divide-y divide-gray-100 flex flex-col gap-2"
             >
-              {cartItems.length > 0 &&
-                cartItems.map((item) => (
+              {allCartItems.length > 0 &&
+                allCartItems.map((item) => (
                   <li
-                    key={item.id}
+                    key={item._id}
                     className="flex flex-col justify-between gap-3 py-5 bg-gray-800 p-4 rounded-lg"
                   >
                     <div className="flex justify-between gap-x-6">
@@ -89,7 +117,7 @@ function PlaceOrder() {
                     <div className="flex justify-end gap-2 border-t border-gray-600 pt-2">
                       <p
                         onClick={() => removeItemHandler(item)}
-                        className="text-red-400 font-bold text-gray-100 cursor-pointer hover:text-red-600"
+                        className="text-red-400 font-bold cursor-pointer hover:text-red-600"
                       >
                         remove
                       </p>
@@ -103,9 +131,9 @@ function PlaceOrder() {
             <div className="py-2 font-bold text-2xl w-max border-b-2 border-gray-400 text-gray-500 pb-1 mb-2">
               User:
             </div>
-            {shippingData ? (
+            {shippingDataObj ? (
               <ul className="flex items-center justify-between gap-2">
-                {Object.entries(shippingData).map(([key, value]) => (
+                {Object.entries(shippingDataObj).map(([key, value]) => (
                   <li key={key}>
                     <span className="text-lg">{key}</span>:{" "}
                     <span className="text-lg font-bold">{value}</span>
@@ -123,7 +151,7 @@ function PlaceOrder() {
               <span className="text-blue-600 font-bold">${totalPrice}</span>
             </div>
             <button
-              onClick={() => {}}
+              onClick={placeOrderSubmitHandler}
               className="px-4 py-2 min-w-xs rounded-lg bg-blue-500 font-bold text-gray-100 hover:bg-blue-600 cursor-pointer"
             >
               Pay

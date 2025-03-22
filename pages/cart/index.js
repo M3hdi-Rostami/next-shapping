@@ -1,20 +1,26 @@
 import BreadCrumps from "@/components/BreadCrumps";
 import Layout from "@/components/Layout";
 import { CartContext } from "@/context/Cart";
+import { removeFromCart } from "@/store/cartSlice";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function Cart() {
-  const { state, dispatch } = useContext(CartContext);
-  const {
-    cart: { cartItems },
-  } = state;
+  const { cartItems } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  // const { state, dispatch } = useContext(CartContext);
+  // const {
+  //   cart: { cartItems },
+  // } = state;
   const router = useRouter();
 
   function removeItemHandler(item) {
-    dispatch({ type: "REMOVE_ITEM", payload: item });
+    // dispatch({ type: "REMOVE_ITEM", payload: item });
+    dispatch(removeFromCart(item));
   }
 
   function redirectToCheckout() {
@@ -33,7 +39,7 @@ function Cart() {
       <ul role="list" className="divide-y divide-gray-100 flex flex-col gap-2">
         {cartItems.map((item) => (
           <li
-            key={item.id}
+            key={item._id}
             className="flex flex-col justify-between gap-3 py-5 bg-gray-800 p-4 rounded-lg"
           >
             <div className="flex justify-between gap-x-6">

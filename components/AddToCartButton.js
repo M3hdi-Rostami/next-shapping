@@ -1,15 +1,16 @@
 import { CartContext } from "@/context/Cart";
 import { useRouter } from "next/router";
 import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { addToCart } from "@/store/cartSlice";
 
 function AddToCartButton(props) {
   const { product, withRedirect = false, cls = "" } = props;
 
-  const { state, dispatch } = useContext(CartContext);
-  const {
-    cart: { cartItems },
-  } = state;
+  const { cartItems } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
   const router = useRouter();
 
   function addToCartHandler() {
@@ -20,7 +21,8 @@ function AddToCartButton(props) {
       return toast.warn("Product is out!");
     }
 
-    dispatch({ type: "ADD_ITEMS", payload: { ...product, qty } });
+    dispatch(addToCart({ ...product, qty }));
+
     toast.success("Product is added to cart");
     if (withRedirect) {
       router.push("/cart");

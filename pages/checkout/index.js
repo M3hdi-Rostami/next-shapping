@@ -22,15 +22,14 @@ function Index() {
   const {
     cart: { shippingData },
   } = state;
-  const { name, family, mobile, postalCode, address } = shippingData;
 
   useEffect(() => {
-    setValue("name", name);
-    setValue("family", family);
-    setValue("mobile", mobile);
-    setValue("postalCode", postalCode);
-    setValue("address", address);
-  }, [setValue, name, family, mobile, postalCode, address]);
+    setValue("name", shippingData?.name);
+    setValue("family", shippingData?.family);
+    setValue("mobile", shippingData?.mobile);
+    setValue("postalCode", shippingData?.postalCode);
+    setValue("address", shippingData?.address);
+  }, [setValue, shippingData]);
 
   function submitHandler({ name, family, mobile, postalCode, address }) {
     dispatch({

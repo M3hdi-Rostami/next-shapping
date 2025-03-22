@@ -1,17 +1,17 @@
+"use client";
+
 import { CartContext } from "@/context/Cart";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Cookies from "js-cookie";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useContext, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function Header() {
   const { status, data: session } = useSession();
 
-  const { state } = useContext(CartContext);
-  const {
-    cart: { cartItems },
-  } = state;
+  const { cartItems } = useSelector((state) => state.cart);
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
 
@@ -25,6 +25,7 @@ function Header() {
   useEffect(() => {
     setCartItemsCount(cartItems.reduce((acc, cur) => acc + cur.qty, 0));
   }, [cartItems]);
+
   return (
     <header>
       <nav className="flex items-center justify-between h-14 px-8 shadow-lg bg-gray-900 text-gray-300 border-b border-gray-300">

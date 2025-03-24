@@ -1,6 +1,7 @@
 import BreadCrumps from "@/components/BreadCrumps";
 import Product from "../../components/Product";
 import Layout from "@/components/Layout";
+import CreateProductForm from "@/components/CreateProductForm";
 
 function Products(props) {
   const { products } = props;
@@ -8,6 +9,8 @@ function Products(props) {
   return (
     <Layout title={"products"}>
       <BreadCrumps pageName="products" />
+
+      <CreateProductForm />
 
       <div className="flex gap-10 flex-wrap">
         {products.map((item) => {
